@@ -1,13 +1,12 @@
 const DATAGRID_CONFIG = {
-    requiredProps: ['name','Category','VDC_WBS','VDC_WBS_NAME','VDC_EJES','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_PRECO','VDC_SECUNDARY_UNITS','VDC_SECTION_SHAPE','VDC_LENGTH','VDC_WEIGHT'], // Which properties should be requested for each object
+    requiredProps: ['name','Category','VDC_EJES','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_TYPE_NAME','VDC_SECUNDARY_UNITS','VDC_SECTION_SHAPE','VDC_LENGTH','VDC_WEIGHT'], // Which properties should be requested for each object
     responsiveLayout:true,
     
     columns: [ // Definition of individual grid columns (see http://tabulator.info for more details)
         { title: 'ID', field: 'dbid',responsive:3 },
+        { title: 'VDC_TYPE_NAME', field: 'type_name', width: 180,responsive:0 },
         { title: 'Name', field: 'name', width: 180,responsive:0 },
         { title: 'Category', field: 'category',responsive:0  },
-        {title: 'VDC_WBS',field: 'WBS',responsive:2},
-        {title: 'VDC_WBS_NAME',field: 'WBS_NAME',responsive:2},
         {title: 'VDC_EJES',field: 'EJES',responsive:2},
         {title: 'VDC_PRECO',field: 'preco',responsive:1},
         {title: 'VDC_PRIMARY_UNITS',field:'units',responsive:0},
@@ -20,8 +19,6 @@ const DATAGRID_CONFIG = {
     groupBy: 'EJES', // Optional column to group by
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
-        const WBS = props.find(p => p.displayName === 'VDC_WBS')?.displayValue;
-        const WBS_NAME = props.find(p => p.displayName === 'VDC_WBS_NAME')?.displayValue;
         const EJES = props.find(p => p.displayName === 'VDC_EJES')?.displayValue;
         const preco = props.find(z => z.displayName === 'VDC_PRECO')?.displayValue.toString();
         const units = props.find(z => z.displayName === 'VDC_PRIMARY_UNITS')?.displayValue;
@@ -29,8 +26,9 @@ const DATAGRID_CONFIG = {
         const section = props.find(c => c.displayName === 'VDC_SECTION_SHAPE')?.displayValue;
         const Length = props.find(a => a.displayName === 'VDC_LENGTH')?.displayValue;
         const weight = props.find(y => y.displayName === 'VDC_WEIGHT')?.displayValue;
+        const type = props.find(x => x.displayName === 'VDC_TYPE_NAME')?.displayValue;
         
-        return { dbid, name,WBS, WBS_NAME,EJES,preco,units,s_units,section,Length,weight,category };
+        return { dbid, name,EJES,preco,units,s_units,section,Length,weight,category,type };
     },
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);
@@ -63,8 +61,10 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.datagrid-container', {
-            height: '100%',
+            maxHeight: '100%',
+            minHeight:300,
             layout: 'fitColumns',
+            responsiveLayout:"collapse",
             columns: DATAGRID_CONFIG.columns,
             groupBy: DATAGRID_CONFIG.groupBy,
             rowClick: (e, row) => DATAGRID_CONFIG.onRowClick(row.getData(), this.extension.viewer)

@@ -1,32 +1,27 @@
 
 const MEPGRID_CONFIG = {
-    requiredProps: ['name','Category',
-    'VDC_WBS', 'VDC_WBS_NAME','VDC_EJES','VDC_PRECO', 'VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS',
-    'System Type',
-    'VDC_LENGTH','VDC_SIZE'], 
+    requiredProps: ['name','Category','VDC_TYPE_NAME','VDC_PESO','VDC_EJES','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_LENGTH','VDC_SIZE','System Type'], 
     responsiveLayout:true,
-    
+
     columns: [ // Definition of individual grid columns (see http://tabulator.info for more details)
-        { title: 'ID', field: 'dbid',responsive:3 },
-        { title: 'Name', field: 'name', width: 180,responsive:0 },
-        { title: 'Category', field: 'category',responsive:0  },
-        {title: 'VDC_WBS',field: 'WBS',responsive:2},
-        {title: 'VDC_WBS_NAME',field: 'WBS_NAME',responsive:2},
-        {title: 'VDC_EJES',field: 'EJES',responsive:2},
-        {title: 'VDC_PRECO',field: 'preco',responsive:1},
-        {title: 'VDC_PRIMARY_UNITS',field:'units',responsive:0},
-        {title: 'VDC_SECUNDARY_UNITS',field:'s_units',responsive:0},
-        {title: 'VDC_LENGTH',field:'length',responsive:1,topCalc:"sum", topCalcParams:{precision:1,}},
-        {title: 'VDC_SIZE',field:'vdcsize',responsive:0,topCalc:"sum", topCalcParams:{precision:1,}},
-        {title: 'System Type',field:'System-Classification',responsive:2},
+    { title: 'ID', field: 'dbid',responsive:3 },
+    { title: 'Name', field: 'name', width: 180,responsive:0 },
+    {title: 'VDC_TYPE_NAME',field: 'Type_Name',responsive:2},
+    {title: 'VDC_PESO', field: 'PESO',responsive:2},
+    { title: 'Category', field: 'category',responsive:0  },
+    {title: 'VDC_EJES',field: 'EJES',responsive:2},
+    {title: 'VDC_PRECO',field: 'preco',responsive:0},
+    {title: 'VDC_PRIMARY_UNITS',field:'units',responsive:0},
+    {title: 'VDC_SECUNDARY_UNITS',field:'s_units',responsive:0},
+    {title: 'VDC_LENGTH',field:'length',responsive:1,topCalc:"sum", topCalcParams:{precision:1,}},
+    {title: 'VDC_SIZE',field:'vdcsize',responsive:0,topCalc:"sum", topCalcParams:{precision:1,}},
+    {title: 'System Type',field:'System-Classification',responsive:2},
         
     ],
     groupBy: 'EJES', // Optional column to group by
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
-        const WBS = props.find(p => p.displayName === 'VDC_WBS')?.displayValue;
-        const WBS_NAME = props.find(p => p.displayName === 'VDC_WBS_NAME')?.displayValue;
         const EJES = props.find(p => p.displayName === 'VDC_EJES')?.displayValue;
         const units = props.find(z => z.displayName === 'VDC_PRIMARY_UNITS')?.displayValue;
         const s_units = props.find(z => z.displayName === 'VDC_SECUNDARY_UNITS')?.displayValue;
@@ -34,8 +29,11 @@ const MEPGRID_CONFIG = {
         const length = props.find(z => z.displayName === 'VDC_LENGTH')?.displayValue;
         const preco = props.find(z => z.displayName === 'VDC_PRECO')?.displayValue.toString();
         const SystemType = props.find(z => z.displayName === 'System Type')?.displayValue;
+        const weight = props.find(y => y.displayName === 'VDC_PESO')?.displayValue;
+        const Type_Name = props.find(z => z.displayName === 'VDC_TYPE_NAME')?.displayValue;
 
-        return { dbid, name,WBS,units,s_units,category,vdcsize,length,SystemType,preco,WBS_NAME, EJES};
+
+        return {dbid, name,units,s_units,category,vdcsize,length,preco,EJES,weight,Type_Name,SystemType};
     },
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);
@@ -67,8 +65,10 @@ export class MEPExtensionPanel extends Autodesk.Viewing.UI.DockingPanel{
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.mep-container', {
-            height: '100%',
+            maxHeight: '100%',
+            minHeight:300,
             layout: 'fitColumns',
+            responsiveLayout:"collapse",
             columns: MEPGRID_CONFIG.columns,
             groupBy: MEPGRID_CONFIG.groupBy,
             selectable:true,
