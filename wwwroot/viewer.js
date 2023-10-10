@@ -45,6 +45,7 @@ export function initViewer(container) {
 export function loadModel(viewer, urn) {
     function onDocumentLoadSuccess(doc) {
         viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
+        viewer.loadExtension("NestedViewerExtension",{filter:["2d","3d"],crossSelection: true});
     }
     function onDocumentLoadFailure(code, message) {
         alert('Could not load model. See console for more details.');
