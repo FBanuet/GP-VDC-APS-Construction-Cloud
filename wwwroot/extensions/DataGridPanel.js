@@ -1,32 +1,34 @@
 const DATAGRID_CONFIG = {
-    requiredProps: ['name','Category','VDC_M/PUL','VDC_PRECO','Comments','VDC_IMCA','VDC_AISC','VDC_LENGTH','VDC_WEIGHT'], // Which properties should be requested for each object
+    requiredProps: ['name','Category','VDC_M/PUL','VDC_PRECO','Comments','VDC_IMCA','VDC_AISC','VDC_LENGTH','VDC_WEIGHT','VDC_COST'], // Which properties should be requested for each object
     responsiveLayout:true,
     
     columns: [ // Definition of individual grid columns (see http://tabulator.info for more details)
-        { title: 'ID', field: 'dbid',responsive:3 },
-        { title: 'Comments', field: 'partida', width: 180,responsive:0 },
-        { title: 'Name', field: 'name', width: 180,responsive:0 },
-        { title: 'Category', field: 'category',responsive:0  },
+        {title: 'ID', field: 'dbid',responsive:3 },
+        {title: 'Comments', field: 'partida', width: 180,responsive:0 },
+        {title: 'Name', field: 'name', width: 180,responsive:0 },
+        {title: 'Category', field: 'category',responsive:0  },
         {title: 'VDC_M/PUL',field: 'MassDensity',responsive:2},
         {title: 'VDC_PRECO',field: 'preco',responsive:1},
         {title: 'VDC_IMCA',field:'imca',responsive:0},
         {title: 'VDC_AISC',field:'section',responsive:2},
         {title: 'VDC_LENGTH',field:'Length',responsive:0,topCalc:"sum", topCalcParams:{precision:1,}},
         {title: 'VDC_WEIGHT',field: 'weight',responsive:0 ,topCalc:"sum", topCalcParams:{precision:1,}},
+        {title: 'VDC_COST',field: 'cost',responsive:0 ,topCalc:"sum", topCalcParams:{precision:1,}},
+
         
     ],
     groupBy: 'partida', // Optional column to group by
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
-        const mass = props.find(p => p.displayName === 'VDC_M/PUL')?.displayValue;
+        const MassDensity = props.find(p => p.displayName === 'VDC_M/PUL')?.displayValue;
         const preco = props.find(z => z.displayName === 'VDC_PRECO')?.displayValue.toString();
-        const Imca = props.find(z => z.displayName === 'VDC_IMCA')?.displayValue;
+        const imca = props.find(z => z.displayName === 'VDC_IMCA')?.displayValue;
         const section = props.find(c => c.displayName === 'VDC_AISC')?.displayValue;
         const Length = props.find(a => a.displayName === 'VDC_LENGTH')?.displayValue;
         const weight = props.find(y => y.displayName === 'VDC_WEIGHT')?.displayValue;
-        const part = props.find(x => x.displayName === 'Comments')?.displayValue;
-        
-        return { dbid, name,mass,preco,Imca,section,Length,weight,category,part };
+        const partida = props.find(x => x.displayName === 'Comments')?.displayValue;
+        const cost = props.find(x => x.displayName === 'VDC_COST')?.displayValue;
+        return { dbid, name,MassDensity,preco,imca,section,Length,weight,category,partida,cost};
     },
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);
@@ -67,7 +69,7 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
             groupBy: DATAGRID_CONFIG.groupBy,
             rowClick: (e, row) => DATAGRID_CONFIG.onRowClick(row.getData(), this.extension.viewer)
         });
-        //this.table.setFilter("preco","=",1);
+        this.table.setFilter("preco","=",1);
         this.exportbutton = document.createElement('button');
         //this.importbutton.type ='file';
         this.exportbutton.innerHTML = 'EXPORT XLSX';
