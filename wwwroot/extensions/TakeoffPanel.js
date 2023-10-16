@@ -17,7 +17,7 @@ const TAKEOFFGRID_CONFIG = {
         
         
     ],
-    groupBy: 'EJES', // Optional column to group by
+    groupBy: 'Type_Name', // Optional column to group by
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
