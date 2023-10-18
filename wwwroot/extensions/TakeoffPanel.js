@@ -1,5 +1,5 @@
 const TAKEOFFGRID_CONFIG = {
-    requiredProps: ['name','Category','VDC_EJES','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_TYPE_NAME','VDC_LENGTH','VDC_AREA','VDC_VOLUME'], // Which properties should be requested for each object
+    requiredProps: ['name','Category','Spec Español','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_TYPE_NAME','VDC_LENGTH','VDC_AREA','VDC_VOLUME'], // Which properties should be requested for each object
     responsiveLayout:true,
     
     columns: [ // Definition of individual grid columns (see http://tabulator.info for more details)
@@ -7,7 +7,7 @@ const TAKEOFFGRID_CONFIG = {
         {title: 'VDC_TYPE_NAME',field: 'Type_Name',responsive:2},
         { title: 'Name', field: 'name', width: 180,responsive:0 },
         { title: 'Category', field: 'category',responsive:0  },
-        {title: 'VDC_EJES',field: 'EJES',responsive:2},
+        {title: 'Spec Español',field: 'Especificacion',responsive:2},
         {title: 'VDC_PRECO',field: 'preco',responsive:1},
         {title: 'VDC_PRIMARY_UNITS',field:'units',responsive:0},
         {title: 'VDC_SECUNDARY_UNITS',field:'s_units',responsive:0},
@@ -21,7 +21,7 @@ const TAKEOFFGRID_CONFIG = {
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
-        const EJES = props.find(p => p.displayName === 'VDC_EJES')?.displayValue;
+        const Especificacion = props.find(p => p.displayName === 'Spec Español')?.displayValue;
         const preco = props.find(z => z.displayName === 'VDC_PRECO')?.displayValue.toString();
         const units = props.find(z => z.displayName === 'VDC_PRIMARY_UNITS')?.displayValue;
         const s_units = props.find(z => z.displayName === 'VDC_SECUNDARY_UNITS')?.displayValue;
@@ -30,7 +30,7 @@ const TAKEOFFGRID_CONFIG = {
         const AREA = props.find(n => n.displayName === 'VDC_AREA')?.displayValue;
         const VOLUME = props.find(a => a.displayName === 'VDC_VOLUME')?.displayValue;
         
-        return { dbid, name,EJES,preco, units,s_units, Type_Name,LENGTH, AREA, VOLUME,category };
+        return { dbid, name,Especificacion,preco, units,s_units, Type_Name,LENGTH, AREA, VOLUME,category };
     },
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);

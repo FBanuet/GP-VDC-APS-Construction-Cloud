@@ -1,6 +1,6 @@
 
 const MEPGRID_CONFIG = {
-    requiredProps: ['name','Category','VDC_TYPE_NAME','VDC_PESO','VDC_EJES','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_LENGTH','VDC_SIZE','System Type'], 
+    requiredProps: ['name','Category','VDC_TYPE_NAME','VDC_PESO','Pipe Segment','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_LENGTH','VDC_SIZE','System Type'], 
     responsiveLayout:true,
 
     columns: [ // Definition of individual grid columns (see http://tabulator.info for more details)
@@ -9,20 +9,20 @@ const MEPGRID_CONFIG = {
     {title: 'VDC_TYPE_NAME',field: 'Type_Name',responsive:2},
     {title: 'VDC_PESO', field: 'PESO',responsive:2},
     { title: 'Category', field: 'category',responsive:0  },
-    {title: 'VDC_EJES',field: 'EJES',responsive:2},
+    {title: 'Pipe Segment',field: 'segmentos',responsive:2},
     {title: 'VDC_PRECO',field: 'preco',responsive:0},
     {title: 'VDC_PRIMARY_UNITS',field:'units',responsive:0},
     {title: 'VDC_SECUNDARY_UNITS',field:'s_units',responsive:0},
     {title: 'VDC_LENGTH',field:'length',responsive:1,topCalc:"sum", topCalcParams:{precision:1,}},
     {title: 'VDC_SIZE',field:'vdcsize',responsive:0,topCalc:"sum", topCalcParams:{precision:1,}},
-    {title: 'System Type',field:'System-Classification',responsive:2},
+    {title: 'System Type',field:'SystemType',responsive:2},
         
     ],
-    groupBy: 'EJES', // Optional column to group by
+    groupBy: 'Type_Name', // Optional column to group by
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
-        const EJES = props.find(p => p.displayName === 'VDC_EJES')?.displayValue;
+        const segmentos = props.find(p => p.displayName === 'Pipe Segment')?.displayValue;
         const units = props.find(z => z.displayName === 'VDC_PRIMARY_UNITS')?.displayValue;
         const s_units = props.find(z => z.displayName === 'VDC_SECUNDARY_UNITS')?.displayValue;
         const vdcsize = props.find(z => z.displayName === 'VDC_SIZE')?.displayValue;
@@ -33,7 +33,7 @@ const MEPGRID_CONFIG = {
         const Type_Name = props.find(z => z.displayName === 'VDC_TYPE_NAME')?.displayValue;
 
 
-        return {dbid, name,units,s_units,category,vdcsize,length,preco,EJES,weight,Type_Name,SystemType};
+        return {dbid, name,units,s_units,category,vdcsize,length,preco,segmentos,weight,Type_Name,SystemType};
     },
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);
