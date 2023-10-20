@@ -1,10 +1,9 @@
-import { BaseExtension} from './BaseExtension.js';
-import { MEPExtensionPanel } from './MEPExtensionPanel.js';
+import { BaseExtension } from './BaseExtension.js';
+import { WBSSteelPanel} from './WBSSteelPanel.js';
 
-
-class MEPExtension extends BaseExtension{
-    constructor(viewer,options){
-        super(viewer,options);
+class WBSSteelExtension extends BaseExtension {
+    constructor(viewer, options) {
+        super(viewer, options);
         this._button = null;
         this._panel = null;
     }
@@ -15,7 +14,7 @@ class MEPExtension extends BaseExtension{
             this.loadScript('https://unpkg.com/tabulator-tables@4.9.3/dist/js/tabulator.min.js', 'Tabulator'),
             this.loadStylesheet('https://unpkg.com/tabulator-tables@4.9.3/dist/css/tabulator.min.css')
         ]);
-        console.log('MEP Takeoff Extension loaded.');
+        console.log('WBSSteelExtension loaded.');
         return true;
     }
 
@@ -30,14 +29,13 @@ class MEPExtension extends BaseExtension{
             this._panel.uninitialize();
             this._panel = null;
         }
-        console.log('MEP TakeOff Extension unloaded.');
+        console.log('WBSSteelExtension unloaded.');
         return true;
     }
 
     onToolbarCreated() {
-        this._panel = new MEPExtensionPanel(this, 'MEP Takeoff-datagrid-panel', 'GP VDC MEP TAKEOFF', { x: 10, y: 10 });
-        this._button = this.createToolbarButton('MEP Takeoff-datagrid-button', 'https://img.icons8.com/windows/32/weather-station-wind-and-air.png', 'Basic MEP Takeoff');
-        
+        this._panel = new WBSSteelPanel(this, 'WBSSteelExtension-panel', 'GP VDC STEEL FABRICATION TAKEOFF', { x: 10, y: 10 });
+        this._button = this.createToolbarButton('WBSSteelExtension-button', 'https://img.icons8.com/external-outline-black-m-oki-orlando/32/external-wbs-project-management-outline-black-m-oki-orlando.png', 'WBS Steel Takeoff');
         this._button.onClick = () => {
             this._panel.setVisible(!this._panel.isVisible());
             this._button.setState(this._panel.isVisible() ? Autodesk.Viewing.UI.Button.State.ACTIVE : Autodesk.Viewing.UI.Button.State.INACTIVE);
@@ -53,11 +51,11 @@ class MEPExtension extends BaseExtension{
             this.update();
         }
     }
+
     async update() {
         const dbids = await this.findLeafNodes(this.viewer.model);
         this._panel.update(this.viewer.model, dbids);
     }
-
 }
 
-Autodesk.Viewing.theExtensionManager.registerExtension('MEPExtension', MEPExtension);
+Autodesk.Viewing.theExtensionManager.registerExtension('WBSSteelExtension', WBSSteelExtension);

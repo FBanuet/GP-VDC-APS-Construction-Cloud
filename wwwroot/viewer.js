@@ -5,6 +5,7 @@ import './extensions/DataGridExtension.js';
 import './extensions/ShoopingExtension.js';
 import './extensions/TakeoffExtension.js';
 import './extensions/MEPExtension.js';
+import './extensions/WBSSteelExtension.js';
 
 async function getAccessToken(callback) {
     try {
@@ -32,6 +33,7 @@ export function initViewer(container) {
                     'ShoopingExtension',
                     'TakeoffExtension',
                     'MEPExtension',
+                    'WBSSteelExtension',
                 ]
             };
             const viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
