@@ -6,6 +6,7 @@ import './extensions/ShoopingExtension.js';
 import './extensions/TakeoffExtension.js';
 import './extensions/MEPExtension.js';
 import './extensions/WBSSteelExtension.js';
+import './extensions/WBSBasicTakeoffExtension.js';
 
 async function getAccessToken(callback) {
     try {
@@ -34,6 +35,7 @@ export function initViewer(container) {
                     'TakeoffExtension',
                     'MEPExtension',
                     'WBSSteelExtension',
+                    'WBSBasicTakeoffExtension',
                 ]
             };
             const viewer = new Autodesk.Viewing.GuiViewer3D(container, config);
