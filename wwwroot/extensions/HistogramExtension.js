@@ -1,6 +1,7 @@
 import { BaseExtension } from './BaseExtension.js';
 import { HistogramPanel } from './HistogramPanel.js';
 
+
 class HistogramExtension extends BaseExtension {
     constructor(viewer, options) {
         super(viewer, options);

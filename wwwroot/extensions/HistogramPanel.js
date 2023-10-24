@@ -1,3 +1,4 @@
+
 export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
     constructor(extension, id, title, options) {
         super(extension.viewer.container, id, title, options);
@@ -61,6 +62,7 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
             dataset.backgroundColor = dataset.borderColor = hslaColors;
         }
         this.chart.update();
+
         this.chart.config.options.onClick = (ev, items) => {
             if (items.length === 1) {
                 const index = items[0].index;
@@ -69,10 +71,14 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
                 //this.extension.viewer.setThemingColor(dbids,THREE.Vector4(0.4, 0.6, 1));
                 var red = new THREE.Vector4(1, 0, 0, 1);
                 this.extension.viewer.isolate(dbids);
-                this.extension.viewer.clearThemingColors(dbids);
-                this.extension.viewer.setThemingColor(dbids,red,model,true);
                 this.extension.viewer.fitToView(dbids);
+                //this.extension.viewer.clearThemingColors(dbids);
+                this.extension.viewer.setThemingColor(dbids,red,model,true);
+                this.extension.viewer.impl.setSelectionColor(dbids,new THREE.Vector4(0,1,1,1));
+                this.extension.viewer.update;
             }
         };
     }
+
+  
 }

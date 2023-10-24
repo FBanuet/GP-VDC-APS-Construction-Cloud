@@ -4,14 +4,14 @@ export class BaseExtension extends Autodesk.Viewing.Extension {
         this._onObjectTreeCreated = (ev) => this.onModelLoaded(ev.model);
         this._onSelectionChanged = (ev) => this.onSelectionChanged(ev.model, ev.dbIdArray);
         this._onIsolationChanged = (ev) => this.onIsolationChanged(ev.model, ev.nodeIdArray);
-        
+        this._onShowEvent = (ev) => this.onShowEvent(ev.model,ev.nodeIdArray);
     }
 
     load() {
         this.viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, this._onObjectTreeCreated);
         this.viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, this._onSelectionChanged);
         this.viewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, this._onIsolationChanged);
-
+        this.viewer.addEventListener(Autodesk.Viewing.SHOW_EVENT,this._onShowEvent);
         return true;
     }
 
@@ -19,6 +19,8 @@ export class BaseExtension extends Autodesk.Viewing.Extension {
         this.viewer.removeEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, this._onObjectTreeCreated);
         this.viewer.removeEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, this._onSelectionChanged);
         this.viewer.removeEventListener(Autodesk.Viewing.ISOLATE_EVENT, this._onIsolationChanged);
+        this.viewer.removeEventListener(Autodesk.Viewing.SHOW_EVENT,this._onShowEvent);
+        
         return true;
     }
 
@@ -27,6 +29,8 @@ export class BaseExtension extends Autodesk.Viewing.Extension {
     onSelectionChanged(model, dbids) {}
 
     onIsolationChanged(model, dbids) {}
+
+    _onShowEvent(model,dbids){}
 
     findLeafNodes(model) {
         return new Promise(function (resolve, reject) {

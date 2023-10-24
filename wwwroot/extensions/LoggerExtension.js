@@ -29,6 +29,11 @@ class LoggerExtension extends BaseExtension {
         console.log('Isolation has changed', dbids);
     }
 
+    onShowEvent(model,dbids){
+        super.onShowEvent(model,dbids);
+        console.log('Elements Shown ',dbids);
+    }
+    
 
 }
 
