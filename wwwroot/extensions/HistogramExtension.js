@@ -33,6 +33,7 @@ class HistogramExtension extends BaseExtension {
         console.log('HistogramExtension unloaded.');
         return true;
     }
+  
 
     onToolbarCreated() {
         this._barChartPanel = new HistogramPanel(this, 'dashboard-barchart-panel', 'WBS Checker', { x: 10, y: 10, chartType: 'bar' });

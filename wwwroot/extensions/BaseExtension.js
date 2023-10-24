@@ -30,7 +30,7 @@ export class BaseExtension extends Autodesk.Viewing.Extension {
 
     onIsolationChanged(model, dbids) {}
 
-    _onShowEvent(model,dbids){}
+    onShowEvent(model,dbids){}
 
     findLeafNodes(model) {
         return new Promise(function (resolve, reject) {

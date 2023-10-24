@@ -6,8 +6,8 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.container.style.left = (options.x || 0) + 'px';
         this.container.style.top = (options.y || 0) + 'px';
         this.container.style.width = (options.width || 500) + 'px';
-        this.container.style.height = (options.height || 400) + 'px';
-        this.container.style.resize = 'none';
+        this.container.style.height = (options.height || 600) + 'px';
+        this.container.style.resize = 'auto';
         this.chartType = options.chartType || 'bar'; // See https://www.chartjs.org/docs/latest for all the supported types of charts
         this.chart = this.createChart();
     }
@@ -17,13 +17,14 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.initializeMoveHandlers(this.title);
         this.container.appendChild(this.title);
         this.content = document.createElement('div');
-        this.content.style.height = '350px';
+        this.content.style.height = '450px';
         this.content.style.backgroundColor = 'white';
+        this.content.style.borderColor = 'white';
         this.content.innerHTML = `
             <div class="props-container" style="position: relative; height: 25px; padding: 0.5em;">
                 <select class="props"></select>
             </div>
-            <div class="chart-container" style="position: relative; height: 325px; padding: 0.5em;">
+            <div class="chart-container" style="position: relative; height: 400px; padding: 0.5em;">
                 <canvas class="chart"></canvas>
             </div>
         `;
@@ -73,8 +74,8 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
                 this.extension.viewer.isolate(dbids);
                 this.extension.viewer.fitToView(dbids);
                 //this.extension.viewer.clearThemingColors(dbids);
-                this.extension.viewer.setThemingColor(dbids,red,model,true);
-                this.extension.viewer.impl.setSelectionColor(dbids,new THREE.Vector4(0,1,1,1));
+                this.extension.viewer.setThemingColor(dbids,red);
+                this.extension.viewer.impl.setSelectionColor(new THREE.Vector4(0,1,1,1),Autodesk.Viewing.SelectionMode.LAST_OBJECT);
                 this.extension.viewer.update;
             }
         };
