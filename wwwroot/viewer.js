@@ -48,29 +48,20 @@ export function initViewer(container) {
     });
 }
 
+
+
 export function loadModel(viewer, urn) {
     function onDocumentLoadSuccess(doc) {
         viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
         viewer.loadExtension("NestedViewerExtension",{filter:["2d","3d"],crossSelection: true});
-        var extensionConfig = {}
-        extensionConfig.mimeType = 'application/vnd.autodesk.revit'
-        extensionConfig.primaryModels = [viewer.getVisibleModels()[1]]
-        extensionConfig.diffModels = [viewer.getVisibleModels()[0]]
-        extensionConfig.diffMode =  'overlay' 
-        extensionConfig.versionA =  '2' 
-        extensionConfig.versionB =  '1' 
-        viewer.loadExtension('Autodesk.DiffTool', extensionConfig)
-        .then(function(extension) {
-            window.DIFF_EXT = viewer.getExtension('Autodesk.DiffTool');
-            console.log(window.DIFF_EXT);
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
+
     }
     function onDocumentLoadFailure(code, message) {
         alert('Could not load model. See console for more details.');
         console.error(message);
     }
+
+
+
     Autodesk.Viewing.Document.load('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
 }
