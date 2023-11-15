@@ -18,6 +18,7 @@ const DATAGRID_CONFIG = {
         
     ],
     groupBy: 'partida', // Optional column to group by
+
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
         const MassDensity = props.find(p => p.displayName === 'VDC_M/PUL')?.displayValue;
@@ -61,10 +62,17 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.datagrid-container', {
+            
+            movableColumns : true,
             maxHeight: '100%',
             minHeight:300,
             layout: 'fitColumns',
             responsiveLayout:"collapse",
+            pagination:true,
+            paginationSize:3,
+            paginationInitialPage:1,
+            paginationButtonCount:3,
+            paginationCounter:"rows",
             columns: DATAGRID_CONFIG.columns,
             groupBy: DATAGRID_CONFIG.groupBy,
             rowClick: (e, row) => DATAGRID_CONFIG.onRowClick(row.getData(), this.extension.viewer)

@@ -1,5 +1,5 @@
 const TAKEOFFGRID_CONFIG = {
-    requiredProps: ['name','Category','Spec Español','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_TYPE_NAME','VDC_LENGTH','VDC_AREA','VDC_VOLUME'], // Which properties should be requested for each object
+    requiredProps: ['name','Category','Comments','VDC_PRECO','VDC_PRIMARY_UNITS','VDC_SECUNDARY_UNITS','VDC_TYPE_NAME','VDC_LENGTH','VDC_AREA','VDC_VOLUME'], // Which properties should be requested for each object
     responsiveLayout:true,
     
     columns: [ // Definition of individual grid columns (see http://tabulator.info for more details)
@@ -7,7 +7,7 @@ const TAKEOFFGRID_CONFIG = {
         {title: 'VDC_TYPE_NAME',field: 'Type_Name',responsive:2},
         { title: 'Name', field: 'name', width: 180,responsive:0 },
         { title: 'Category', field: 'category',responsive:0  },
-        {title: 'Spec Español',field: 'Especificacion',responsive:2},
+        {title: 'Comments',field: 'Partida',responsive:2},
         {title: 'VDC_PRECO',field: 'preco',responsive:1},
         {title: 'VDC_PRIMARY_UNITS',field:'units',responsive:0},
         {title: 'VDC_SECUNDARY_UNITS',field:'s_units',responsive:0},
@@ -17,11 +17,13 @@ const TAKEOFFGRID_CONFIG = {
         
         
     ],
-    groupBy: 'Type_Name', // Optional column to group by
+    groupBy: ['Partida','Type_Name'],
+    groupStartOpen:[true,false],
+    groupUpdateOnCellEdit:true,// Optional column to group by
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
-        const Especificacion = props.find(p => p.displayName === 'Spec Español')?.displayValue;
+        const Partida = props.find(p => p.displayName === 'Comments')?.displayValue;
         const preco = props.find(z => z.displayName === 'VDC_PRECO')?.displayValue.toString();
         const units = props.find(z => z.displayName === 'VDC_PRIMARY_UNITS')?.displayValue;
         const s_units = props.find(z => z.displayName === 'VDC_SECUNDARY_UNITS')?.displayValue;
@@ -30,7 +32,7 @@ const TAKEOFFGRID_CONFIG = {
         const AREA = props.find(n => n.displayName === 'VDC_AREA')?.displayValue;
         const VOLUME = props.find(a => a.displayName === 'VDC_VOLUME')?.displayValue;
         
-        return { dbid, name,Especificacion,preco, units,s_units, Type_Name,LENGTH, AREA, VOLUME,category };
+        return { dbid, name,Partida,preco, units,s_units, Type_Name,LENGTH, AREA, VOLUME,category };
     },
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);
@@ -62,7 +64,8 @@ export class TakeoffPanel extends Autodesk.Viewing.UI.DockingPanel{
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.takeoff-container', {
-            maxHeight: '100%',
+            maxHeight: '100%',7
+            movableColumns : true,
             minHeight:300,
             layout: 'fitColumns',
             responsiveLayout:"collapse",

@@ -18,7 +18,8 @@ const WBSTAKEOFFGRID_CONFIG = {
         
         
     ],
-    groupBy: 'CodigoWBS', // Optional column to group by
+    groupBy: ['CodigoWBS',"name","Type_Name"], // Optional column to group by
+    groupStartOpen: [ true,false,false],
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
@@ -64,6 +65,7 @@ export class WBSBasicTakeoffPanel extends Autodesk.Viewing.UI.DockingPanel{
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.wbstakeoff-container', {
+            movableColumns : true,
             maxHeight: '100%',
             minHeight:300,
             layout: 'fitColumns',

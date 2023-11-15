@@ -19,7 +19,8 @@ const WBSMEPGRID_CONFIG = {
     {title: 'System Type',field:'SystemType',responsive:2},
         
     ],
-    groupBy: 'WBSCodigo', // Optional column to group by
+    groupBy: ['WBSCodigo','category','SystemType'] ,// Optional column to group by
+    groupStartOpen:[true,false,false],
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
 
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
@@ -67,6 +68,7 @@ export class WBSMEPpanel extends Autodesk.Viewing.UI.DockingPanel{
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.wbs-mep-container', {
+            movableColumns : true,
             maxHeight: '100%',
             minHeight:300,
             layout: 'fitColumns',

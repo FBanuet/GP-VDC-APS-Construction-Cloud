@@ -65,6 +65,7 @@ export class MEPExtensionPanel extends Autodesk.Viewing.UI.DockingPanel{
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.mep-container', {
+            movableColumns : true,
             maxHeight: '100%',
             minHeight:300,
             layout: 'fitColumns',

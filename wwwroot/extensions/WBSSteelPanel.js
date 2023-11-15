@@ -18,7 +18,8 @@ const WBSSTEEL_CONFIG = {
 
         
     ],
-    groupBy: 'CodigoWBS', // Optional column to group by
+    groupBy: ['CodigoWBS','category'], // Optional column to group by
+    groupStartOpen: [ true,false],
     createRow: (dbid, name, props) => { // Function generating grid rows based on recieved object properties
         const category = props.find(p => p.displayName === 'Category')?.displayValue;
         const MassDensity = props.find(p => p.displayName === 'VDC_M/PUL')?.displayValue;
@@ -62,6 +63,7 @@ export class WBSSteelPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.wbssteel-container', {
+            movableColumns : true,
             maxHeight: '100%',
             minHeight:300,
             layout: 'fitColumns',
