@@ -64,7 +64,7 @@ export class TakeoffPanel extends Autodesk.Viewing.UI.DockingPanel{
         this.container.appendChild(this.content);
         // See http://tabulator.info
         this.table = new Tabulator('.takeoff-container', {
-            maxHeight: '100%',7
+            maxHeight: '100%',
             movableColumns : true,
             minHeight:300,
             layout: 'fitColumns',

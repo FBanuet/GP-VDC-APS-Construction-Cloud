@@ -45,12 +45,25 @@ class DataGridExtension extends BaseExtension {
         };
     }
 
+    clicks = [
+        function(){
+            if(viewer.getIsolatedNodes().length < 0 )
+            {
+                viewer.clearThemingColors();
+                viewer.showAll();
+            }else{
+                isolateSel();
+            }
+        }
+    ];
+
     onModelLoaded(model) {
         super.onModelLoaded(model);
         if (this._panel && this._panel.isVisible()) {
             this.update();
         }
     }
+
 
     async update() {
         const dbids = await this.findLeafNodes(this.viewer.model);

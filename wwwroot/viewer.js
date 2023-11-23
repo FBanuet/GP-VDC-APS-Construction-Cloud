@@ -54,6 +54,14 @@ export function loadModel(viewer, urn) {
     function onDocumentLoadSuccess(doc) {
         viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
         viewer.loadExtension("NestedViewerExtension",{filter:["2d","3d"],crossSelection: true});
+        viewer.setDisplayEdges(false);
+        viewer.setProgressiveRendering(true);
+        viewer.setGroundReflection(false);
+        viewer.setGroundShadow(false);
+        viewer.setQualityLevel(false, false);
+        viewer.setGroundReflectionAlpha(0);
+        viewer.hideLines(true);
+        viewer.setOptimizeNavigation(true);
         viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, async function () {
             const ext = await viewer.loadExtension('Autodesk.ModelStructure');
             const modelStructurePanel = new Autodesk.Viewing.Extensions.ViewerModelStructurePanel(viewer, 'My Model Browser');

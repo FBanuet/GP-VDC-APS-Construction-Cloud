@@ -34,6 +34,7 @@ const DATAGRID_CONFIG = {
     onRowClick: (row, viewer) => {
         viewer.isolate([row.dbid]);
         viewer.fitToView([row.dbid]);
+        
     },
     
     
@@ -64,6 +65,7 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
         this.table = new Tabulator('.datagrid-container', {
             
             movableColumns : true,
+            selectable:true,
             maxHeight: '100%',
             minHeight:300,
             layout: 'fitColumns',
@@ -78,8 +80,12 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
             rowClick: (e, row) => DATAGRID_CONFIG.onRowClick(row.getData(), this.extension.viewer)
         });
         this.table.setFilter("preco","=",1);
+        
+        this.Selectallbutton = document.createElement('button');
+        this.Selectallbutton.innerHTML = 'Select All';
+
+
         this.exportbutton = document.createElement('button');
-        //this.importbutton.type ='file';
         this.exportbutton.innerHTML = 'EXPORT XLSX';
         this.exportbutton.style.width = (this.options.buttonWidth || 100) + 'px';
         this.exportbutton.style.height = (this.options.buttonHeight || 24) + 'px';
@@ -92,7 +98,9 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
 
         this.exportbutton.onclick = this.exportExcel.bind(this);
         this.container.appendChild(this.exportbutton);
+        
     }
+    
 
     exportExcel(){
         let data = this.table.download("xlsx","data.xlsx",{sheetName: "MyData"});
@@ -106,4 +114,6 @@ export class DataGridPanel extends Autodesk.Viewing.UI.DockingPanel {
             console.error(err);
         });
     }
+
+    
 }
