@@ -54,10 +54,13 @@ export function loadModel(viewer, urn) {
     function onDocumentLoadSuccess(doc) {
         viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
         viewer.loadExtension("NestedViewerExtension",{filter:["2d","3d"],crossSelection: true});
+        viewer.loadExtension('Autodesk.DocumentBrowser');
+        viewer.loadExtension('Autodesk.VisualClusters');
+        //viewer.loadExtension('Autodesk.Edit2D');
         viewer.setDisplayEdges(false);
         viewer.setProgressiveRendering(true);
-        viewer.setGroundReflection(false);
-        viewer.setGroundShadow(false);
+        viewer.setGroundReflection(true);
+        viewer.setGroundShadow(true);
         viewer.setQualityLevel(false, false);
         viewer.setGroundReflectionAlpha(0);
         viewer.hideLines(true);

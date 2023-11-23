@@ -70,12 +70,12 @@ export class HistogramPanel extends Autodesk.Viewing.UI.DockingPanel {
                 const dbids = histogram.get(propertyValues[index]);
                 //this.extension.viewer.setT
                 //this.extension.viewer.setThemingColor(dbids,THREE.Vector4(0.4, 0.6, 1));
-                //var red = new THREE.Vector4(1, 0, 0, 1);
-                //this.extension.viewer.clearThemingColors();
+                var red = new THREE.Vector4(1, 0, 0, 1);
+                //
                 this.extension.viewer.select(dbids,model,Autodesk.Viewing.SelectionType.OVERLAYED);
                 this.extension.viewer.setSelectionColor(red,Autodesk.Viewing.SelectionType.OVERLAYED);
-                this.extension.viewer.isolate();
-                this.extension.viewer.fitToView();
+                this.extension.viewer.isolate(dbids);
+                this.extension.viewer.fitToView(dbids);
 
             }
         };

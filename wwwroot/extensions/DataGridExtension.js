@@ -45,17 +45,6 @@ class DataGridExtension extends BaseExtension {
         };
     }
 
-    clicks = [
-        function(){
-            if(viewer.getIsolatedNodes().length < 0 )
-            {
-                viewer.clearThemingColors();
-                viewer.showAll();
-            }else{
-                isolateSel();
-            }
-        }
-    ];
 
     onModelLoaded(model) {
         super.onModelLoaded(model);
